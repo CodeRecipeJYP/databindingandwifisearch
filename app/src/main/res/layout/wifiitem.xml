@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFF">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewmodel"
+            type="com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel.WifiItemViewModel"/>
+    </data>
 
-    <TextView
-        android:id="@+id/tv_wifi_name"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:layout_weight="4"
-        android:text="와이파이 이름" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF">
 
-    <ImageView
-        android:id="@+id/iv_wifi"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:cropToPadding="true"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_signal_wifi_4_bar_black_24dp"
-        />
+        <TextView
+            android:id="@+id/tv_wifi_name"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_weight="4"
+            tools:text="와이파이 이름"
+            android:text="@{viewmodel.wifiitem.getWifiname()}" />
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/iv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:cropToPadding="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_signal_wifi_4_bar_black_24dp"
+            />
+
+    </LinearLayout>
+</layout>

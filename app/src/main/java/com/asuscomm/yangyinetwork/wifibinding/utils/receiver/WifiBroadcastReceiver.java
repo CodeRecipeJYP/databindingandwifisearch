@@ -8,7 +8,13 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
+import com.asuscomm.yangyinetwork.wifibinding.utils.converter.ObjectConvertUtils;
+
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.subjects.ReplaySubject;
 
 /**
  * Created by jaeyoung on 8/9/17.
@@ -17,7 +23,8 @@ import java.util.List;
 public class WifiBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "WifiBroadcastReceiver";
     private static WifiBroadcastReceiver sInstance;
-    private final WifiManager mWifiManager;
+    private WifiManager mWifiManager;
+    private ReplaySubject<List<WifiItem>> mNotifier;
 
     public static WifiBroadcastReceiver getInstance() {
         if (sInstance == null) {
@@ -38,21 +45,26 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 //        intentFilter.addAction(WifiManager.ACTION_REQUEST_SCAN_ALWAYS_AVAILABLE);
         context.registerReceiver(this,
                 intentFilter);
+
+        mNotifier = ReplaySubject.create();
     }
 
     public void startScans() {
+        Log.d(TAG, "startScans: ");
         mWifiManager.startScan();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "onReceive() called with: context = [" + context.toString() + "]," +
-                " intent = [" + intent.toString() + "]");
+//        Log.d(TAG, "onReceive() called with: context = [" + context.toString() + "]," +
+//                " intent = [" + intent.toString() + "]");
 
         List<ScanResult> scanResults = mWifiManager.getScanResults();
         mWifiManager.startScan();
         if (scanResults.size() > 0) {
-            Log.d(TAG, "initWifiManager: scanresult=" + scanResults.toString());
+            Log.d(TAG, "initWifiManager: scanresult.size=" + scanResults.size());
+            List<WifiItem> wifiItems = ObjectConvertUtils.convertToWifiItem(scanResults);
+            mNotifier.onNext(wifiItems);
         }
     }
 
@@ -63,5 +75,9 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
     public static void destroy() {
         Log.d(TAG, "destroy: ");
         sInstance = null;
+    }
+
+    public Observable<List<WifiItem>> asObserverble() {
+        return mNotifier;
     }
 }

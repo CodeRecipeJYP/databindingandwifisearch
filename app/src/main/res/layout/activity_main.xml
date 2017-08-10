@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="viewmodel"
             type="com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel.MainViewModel"/>
@@ -64,11 +65,10 @@
             android:layout_marginEnd="8dp" />
 
         <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/recyclerview_wifi"
-            android:layout_width="214dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="156dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -78,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_wifinum"
+            bind:items="@{viewmodel.items}" />
     </android.support.constraint.ConstraintLayout>
 </layout>

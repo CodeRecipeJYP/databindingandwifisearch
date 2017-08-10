@@ -4,6 +4,7 @@ import android.Manifest;
 import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class MainActivity extends LifecycleActivity {
 
     private WifiAdapter mAdapter;
     private Unbinder mUnbinder;
+    private MainViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,8 @@ public class MainActivity extends LifecycleActivity {
 
     private void bindviewmodel() {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
-        binding.setViewmodel(model);
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        binding.setViewmodel(mViewModel);
     }
 
     private void chkPermissions() {
@@ -63,8 +65,8 @@ public class MainActivity extends LifecycleActivity {
 
     private void initWifiManager() {
         Log.d(TAG, "initWifiManager: ");
-//        WifiBroadcastReceiver.init(this);
-//        WifiBroadcastReceiver.getInstance().startScans();
+        WifiBroadcastReceiver.init(this);
+        mViewModel.wifireceiverInitialized();
     }
 
     @Override
@@ -89,9 +91,7 @@ public class MainActivity extends LifecycleActivity {
     }
 
     private void initRecyclerView() {
-        mAdapter = new WifiAdapter(
-                WifiRepo.getDummys()
-        );
+        mAdapter = new WifiAdapter();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
