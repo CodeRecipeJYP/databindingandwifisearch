@@ -1,4 +1,4 @@
-package com.asuscomm.yangyinetwork.wifibinding.adapter;
+package com.asuscomm.yangyinetwork.wifibinding.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.asuscomm.yangyinetwork.wifibinding.R;
-import com.asuscomm.yangyinetwork.wifibinding.data.WifiItem;
-import com.asuscomm.yangyinetwork.wifibinding.adapter.viewholder.WifiViewHolder;
+import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
+import com.asuscomm.yangyinetwork.wifibinding.ui.adapter.viewholder.WifiViewHolder;
 
 import java.util.List;
 

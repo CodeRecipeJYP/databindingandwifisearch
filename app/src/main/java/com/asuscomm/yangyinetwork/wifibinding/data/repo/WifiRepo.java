@@ -1,6 +1,6 @@
 package com.asuscomm.yangyinetwork.wifibinding.data.repo;
 
-import com.asuscomm.yangyinetwork.wifibinding.data.WifiItem;
+import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
 
 import java.util.ArrayList;
 import java.util.List;

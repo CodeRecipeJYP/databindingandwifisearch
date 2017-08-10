@@ -1,4 +1,4 @@
-package com.asuscomm.yangyinetwork.wifibinding.data;
+package com.asuscomm.yangyinetwork.wifibinding.data.models;
 
 /**
  * Created by jaeyoung on 8/10/17.

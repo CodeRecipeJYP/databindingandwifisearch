@@ -7,13 +7,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.asuscomm.yangyinetwork.wifibinding.consts.Configs;
+import com.asuscomm.yangyinetwork.wifibinding.utils.consts.Configs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import io.reactivex.functions.Action;
 

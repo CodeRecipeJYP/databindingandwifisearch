@@ -1,4 +1,4 @@
-package com.asuscomm.yangyinetwork.wifibinding.adapter.viewholder;
+package com.asuscomm.yangyinetwork.wifibinding.ui.adapter.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.asuscomm.yangyinetwork.wifibinding.R;
-import com.asuscomm.yangyinetwork.wifibinding.data.WifiItem;
+import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

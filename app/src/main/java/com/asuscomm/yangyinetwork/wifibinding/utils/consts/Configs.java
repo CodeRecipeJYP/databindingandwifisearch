@@ -1,4 +1,4 @@
-package com.asuscomm.yangyinetwork.wifibinding.consts;
+package com.asuscomm.yangyinetwork.wifibinding.utils.consts;
 
 /**
  * Created by jaeyoung on 8/9/17.

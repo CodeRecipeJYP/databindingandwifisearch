@@ -1,4 +1,4 @@
-package com.asuscomm.yangyinetwork.wifibinding.receiver;
+package com.asuscomm.yangyinetwork.wifibinding.utils.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

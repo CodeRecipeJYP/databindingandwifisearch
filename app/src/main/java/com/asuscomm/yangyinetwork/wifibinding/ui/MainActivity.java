@@ -1,4 +1,4 @@
-package com.asuscomm.yangyinetwork.wifibinding;
+package com.asuscomm.yangyinetwork.wifibinding.ui;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -10,12 +10,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.asuscomm.yangyinetwork.wifibinding.adapter.WifiAdapter;
-import com.asuscomm.yangyinetwork.wifibinding.consts.Configs;
-import com.asuscomm.yangyinetwork.wifibinding.data.WifiItemList;
+import com.asuscomm.yangyinetwork.wifibinding.AppController;
+import com.asuscomm.yangyinetwork.wifibinding.R;
+import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItemList;
 import com.asuscomm.yangyinetwork.wifibinding.data.repo.WifiRepo;
 import com.asuscomm.yangyinetwork.wifibinding.databinding.ActivityMainBinding;
-import com.asuscomm.yangyinetwork.wifibinding.receiver.WifiBroadcastReceiver;
+import com.asuscomm.yangyinetwork.wifibinding.ui.adapter.WifiAdapter;
+import com.asuscomm.yangyinetwork.wifibinding.ui.presenter.MainPresenter;
+import com.asuscomm.yangyinetwork.wifibinding.utils.consts.Configs;
+import com.asuscomm.yangyinetwork.wifibinding.utils.receiver.WifiBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     private WifiAdapter mAdapter;
     private Unbinder mUnbinder;
+    private MainPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
+        initPresenter();
         databind();
 
         mUnbinder = ButterKnife.bind(this);
@@ -45,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
         chkPermissions();
     }
 
+    private void initPresenter() {
+        mPresenter = new MainPresenter();
+    }
+
     private void databind() {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setWifiitemlist(new WifiItemList("length = 4"));
+        binding.setPresenter(mPresenter);
     }
 
     private void chkPermissions() {
