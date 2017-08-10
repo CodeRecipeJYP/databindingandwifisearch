@@ -56,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void databind() {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setWifiitemlist(new WifiItemList("length = 4"));
+        WifiItemList wifiItemList = new WifiItemList("length = 4");
+        binding.setLength(wifiItemList.length);
         binding.setPresenter(mPresenter);
+        mPresenter.setWifiItemList(wifiItemList);
     }
 
     private void chkPermissions() {
