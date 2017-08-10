@@ -2,9 +2,8 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="android.databinding.ObservableField"/>
-        <variable name="length" type="ObservableField&lt;String&gt;"/>
-        <variable name="presenter" type="com.asuscomm.yangyinetwork.wifibinding.ui.presenter.MainPresenter"/>
+        <variable name="viewmodel"
+            type="com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel.MainViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -40,7 +39,7 @@
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_guide"
-            android:onClick="@{presenter::onScanClicked}"
+            android:onClick="@{viewmodel::onScanClicked}"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
@@ -48,7 +47,7 @@
         <TextView
             android:id="@+id/tv_wifinum"
             android:gravity="center"
-            android:text="@{length}"
+            android:text="@{viewmodel.length}"
             android:layout_width="368dp"
             android:layout_height="50dp"
             android:layout_marginRight="8dp"

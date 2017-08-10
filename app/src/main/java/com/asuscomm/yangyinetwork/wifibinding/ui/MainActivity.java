@@ -1,10 +1,11 @@
 package com.asuscomm.yangyinetwork.wifibinding.ui;
 
 import android.Manifest;
+import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,10 @@ import android.util.Log;
 
 import com.asuscomm.yangyinetwork.wifibinding.AppController;
 import com.asuscomm.yangyinetwork.wifibinding.R;
-import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItemList;
 import com.asuscomm.yangyinetwork.wifibinding.data.repo.WifiRepo;
 import com.asuscomm.yangyinetwork.wifibinding.databinding.ActivityMainBinding;
 import com.asuscomm.yangyinetwork.wifibinding.ui.adapter.WifiAdapter;
-import com.asuscomm.yangyinetwork.wifibinding.ui.presenter.MainPresenter;
+import com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel.MainViewModel;
 import com.asuscomm.yangyinetwork.wifibinding.utils.consts.Configs;
 import com.asuscomm.yangyinetwork.wifibinding.utils.receiver.WifiBroadcastReceiver;
 
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LifecycleActivity {
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.recyclerview_wifi)
@@ -36,30 +36,22 @@ public class MainActivity extends AppCompatActivity {
 
     private WifiAdapter mAdapter;
     private Unbinder mUnbinder;
-    private MainPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
-        initPresenter();
-        databind();
+        bindviewmodel();
 
         mUnbinder = ButterKnife.bind(this);
         initRecyclerView();
         chkPermissions();
     }
 
-    private void initPresenter() {
-        mPresenter = new MainPresenter();
-    }
-
-    private void databind() {
+    private void bindviewmodel() {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        WifiItemList wifiItemList = new WifiItemList("length = 4");
-        binding.setLength(wifiItemList.length);
-        binding.setPresenter(mPresenter);
-        mPresenter.setWifiItemList(wifiItemList);
+        MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
+        binding.setViewmodel(model);
     }
 
     private void chkPermissions() {
@@ -71,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initWifiManager() {
         Log.d(TAG, "initWifiManager: ");
-        WifiBroadcastReceiver.init(this);
-        WifiBroadcastReceiver.getInstance().startScans();
+//        WifiBroadcastReceiver.init(this);
+//        WifiBroadcastReceiver.getInstance().startScans();
     }
 
     @Override
