@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 
 import com.asuscomm.yangyinetwork.wifibinding.R;
 import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
+import com.asuscomm.yangyinetwork.wifibinding.databinding.WifiitemBinding;
 import com.asuscomm.yangyinetwork.wifibinding.ui.adapter.viewholder.WifiViewHolder;
+import com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel.WifiItemViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,25 +22,28 @@ public class WifiAdapter extends RecyclerView.Adapter<WifiViewHolder> {
     private static final String TAG = "DeviceMenuAdapter";
     private List<WifiItem> mItems;
 
-    public WifiAdapter(List<WifiItem> items) {
-        this.mItems = items;
+    public WifiAdapter() {
+        this.mItems = new ArrayList<>();
     }
 
     @Override
     public WifiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View deviceMenuView = LayoutInflater.from(parent.getContext())
+        View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wifiitem, parent, false);
 
-        final WifiViewHolder deviceMenuViewHolder =
-                new WifiViewHolder(deviceMenuView);
+        WifiItemViewModel viewModel = new WifiItemViewModel();
 
-        return deviceMenuViewHolder;
+        WifiitemBinding binding = WifiitemBinding.bind(itemView);
+
+        final WifiViewHolder viewholder =
+                new WifiViewHolder(itemView, binding, viewModel);
+
+        return viewholder;
     }
 
     @Override
     public void onBindViewHolder(WifiViewHolder holder, int position) {
-        WifiItem deviceItem = mItems.get(position);
-        holder.configureWith(deviceItem);
+        holder.configureWith(mItems.get(position));
     }
 
     @Override

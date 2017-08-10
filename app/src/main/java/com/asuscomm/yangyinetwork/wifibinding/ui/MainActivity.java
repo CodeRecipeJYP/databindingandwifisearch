@@ -36,6 +36,7 @@ public class MainActivity extends LifecycleActivity {
 
     private WifiAdapter mAdapter;
     private Unbinder mUnbinder;
+    private MainViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,13 @@ public class MainActivity extends LifecycleActivity {
         bindviewmodel();
 
         mUnbinder = ButterKnife.bind(this);
+        mViewModel = createViewModel();
         initRecyclerView();
         chkPermissions();
+    }
+
+    private MainViewModel createViewModel() {
+        return new MainViewModel();
     }
 
     private void bindviewmodel() {
@@ -89,9 +95,7 @@ public class MainActivity extends LifecycleActivity {
     }
 
     private void initRecyclerView() {
-        mAdapter = new WifiAdapter(
-                WifiRepo.getDummys()
-        );
+        mAdapter = new WifiAdapter();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);

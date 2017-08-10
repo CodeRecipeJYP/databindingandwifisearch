@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="viewmodel"
             type="com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel.MainViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#763333"
@@ -16,6 +17,7 @@
         <TextView
             android:id="@+id/tv_guide"
             android:gravity="center"
+            bind:wifiRecyclerViewModel="@{viewmodel}"
             android:text="가정 내 와이파이를 선택해 주세요"
             android:layout_width="368dp"
             android:layout_height="50dp"

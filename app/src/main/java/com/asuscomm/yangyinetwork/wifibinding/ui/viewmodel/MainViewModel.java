@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
 import com.asuscomm.yangyinetwork.wifibinding.data.repo.WifiRepo;
+import com.asuscomm.yangyinetwork.wifibinding.ui.adapter.WifiAdapter;
 import com.asuscomm.yangyinetwork.wifibinding.utils.rxjava.FieldUtils;
 
 import java.util.List;
@@ -29,10 +30,16 @@ public class MainViewModel extends ViewModel {
 
     private ReplaySubject<String> notifier = ReplaySubject.create();
     private int clicked = 0;
+    private WifiAdapter mAdapter;
 
     public MainViewModel() {
+        initRecyclerView();
         initField();
         loadData();
+    }
+
+    private void initRecyclerView() {
+        mAdapter = new WifiAdapter();
     }
 
     private void initField() {
