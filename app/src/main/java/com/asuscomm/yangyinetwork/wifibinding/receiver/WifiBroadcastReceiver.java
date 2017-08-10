@@ -34,6 +34,8 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
         mWifiManager = wifiManager;
 
         IntentFilter intentFilter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+//        intentFilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+//        intentFilter.addAction(WifiManager.ACTION_REQUEST_SCAN_ALWAYS_AVAILABLE);
         context.registerReceiver(this,
                 intentFilter);
     }
@@ -48,7 +50,10 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 " intent = [" + intent.toString() + "]");
 
         List<ScanResult> scanResults = mWifiManager.getScanResults();
-        Log.d(TAG, "initWifiManager: scanresult=" + scanResults.toString());
+        mWifiManager.startScan();
+        if (scanResults.size() > 0) {
+            Log.d(TAG, "initWifiManager: scanresult=" + scanResults.toString());
+        }
     }
 
     public static void init(Context context) {
