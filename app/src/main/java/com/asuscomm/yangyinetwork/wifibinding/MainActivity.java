@@ -2,6 +2,7 @@ package com.asuscomm.yangyinetwork.wifibinding;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import com.asuscomm.yangyinetwork.wifibinding.adapter.WifiAdapter;
 import com.asuscomm.yangyinetwork.wifibinding.data.WifiItem;
 import com.asuscomm.yangyinetwork.wifibinding.data.repo.WifiRepo;
+import com.asuscomm.yangyinetwork.wifibinding.receiver.WifiBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         mUnbinder = ButterKnife.bind(this);
         initRecyclerView();
-        chkPermissions();
+//        chkPermissions();
+        initWifiManager();
+    }
+
+    private void initWifiManager() {
+        WifiBroadcastReceiver.init(this);
+        WifiBroadcastReceiver.getInstance().startScans();
     }
 
     private void chkPermissions() {
@@ -53,29 +61,11 @@ public class MainActivity extends AppCompatActivity {
         AppController.getInstance().chkPermissions(permissions, this);
     }
 
-    private void initWifiSearch() {
-        Log.d(TAG, "initWifiSearch: ");
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        intentFilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
-        intentFilter.addAction(WifiManager.ACTION_REQUEST_SCAN_ALWAYS_AVAILABLE);
-//        getApplicationContext().registerReceiver(mReceiver, intentFilter);
-//        mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//
-//        if(!mWifiManager.isWifiEnabled()) {
-//            Log.d(TAG, "wifiSetting: Wifi Turn on");
-//            mWifiManager.setWifiEnabled(true);
-//            Log.d(TAG, "wifiSetting: Wifi Turned On");
-//        }
-//        Log.d(TAG, "wifiSetting: Wifi Scan start");
-//        mWifiManager.startScan();
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        WifiBroadcastReceiver.destroy();
     }
 
     private void initRecyclerView() {
