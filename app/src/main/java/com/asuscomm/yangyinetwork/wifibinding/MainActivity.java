@@ -2,6 +2,7 @@ package com.asuscomm.yangyinetwork.wifibinding;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.util.Log;
 
 import com.asuscomm.yangyinetwork.wifibinding.adapter.WifiAdapter;
 import com.asuscomm.yangyinetwork.wifibinding.consts.Configs;
+import com.asuscomm.yangyinetwork.wifibinding.data.WifiItemList;
 import com.asuscomm.yangyinetwork.wifibinding.data.repo.WifiRepo;
+import com.asuscomm.yangyinetwork.wifibinding.databinding.ActivityMainBinding;
 import com.asuscomm.yangyinetwork.wifibinding.receiver.WifiBroadcastReceiver;
 
 import java.util.ArrayList;
@@ -34,11 +37,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        databind();
 
         mUnbinder = ButterKnife.bind(this);
         initRecyclerView();
         chkPermissions();
+    }
+
+    private void databind() {
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setWifiitemlist(new WifiItemList("length = 4"));
     }
 
     private void chkPermissions() {
