@@ -1,9 +1,8 @@
 package com.asuscomm.yangyinetwork.wifibinding;
 
-import android.content.Context;
-import android.content.IntentFilter;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,21 +10,17 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.asuscomm.yangyinetwork.wifibinding.adapter.WifiAdapter;
-import com.asuscomm.yangyinetwork.wifibinding.data.WifiItem;
+import com.asuscomm.yangyinetwork.wifibinding.consts.Configs;
 import com.asuscomm.yangyinetwork.wifibinding.data.repo.WifiRepo;
 import com.asuscomm.yangyinetwork.wifibinding.receiver.WifiBroadcastReceiver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_WIFI_STATE;
-import static android.Manifest.permission.CHANGE_WIFI_STATE;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -43,22 +38,34 @@ public class MainActivity extends AppCompatActivity {
 
         mUnbinder = ButterKnife.bind(this);
         initRecyclerView();
-//        chkPermissions();
-        initWifiManager();
-    }
-
-    private void initWifiManager() {
-        WifiBroadcastReceiver.init(this);
-        WifiBroadcastReceiver.getInstance().startScans();
+        chkPermissions();
     }
 
     private void chkPermissions() {
         List<String> permissions = new ArrayList<>();
-        permissions.add(ACCESS_COARSE_LOCATION);
-        permissions.add(ACCESS_WIFI_STATE);
-        permissions.add(CHANGE_WIFI_STATE);
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        AppController.getInstance().chkPermissions(permissions, this);
+        AppController.getInstance().chkPermissions(permissions, this, this::initWifiManager);
+    }
+
+    private void initWifiManager() {
+        Log.d(TAG, "initWifiManager: ");
+        WifiBroadcastReceiver.init(this);
+        WifiBroadcastReceiver.getInstance().startScans();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Configs.WIFIPERMISSION_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onRequestPermissionsResult: PERMISSION_GRANTED");
+                initWifiManager();
+            } else {
+                Log.d(TAG, "onRequestPermissionsResult: PERMISSION_DENIED");
+                AppController.getInstance().chkPermissions(permissions, this);
+            }
+        }
     }
 
     @Override
