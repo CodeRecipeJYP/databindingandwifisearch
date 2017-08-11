@@ -6,11 +6,15 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.databinding.OnRebindCallback;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import com.asuscomm.yangyinetwork.wifibinding.AppController;
 import com.asuscomm.yangyinetwork.wifibinding.R;
@@ -42,7 +46,6 @@ public class MainActivity extends LifecycleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         bindviewmodel();
 
         mUnbinder = ButterKnife.bind(this);
@@ -54,6 +57,16 @@ public class MainActivity extends LifecycleActivity {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         binding.setViewmodel(mViewModel);
+        binding.addOnRebindCallback(new OnRebindCallback() {
+            @Override
+            public boolean onPreBind(ViewDataBinding binding) {
+                Log.d(TAG, "onPreBind: ");
+                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
+                TransitionManager.beginDelayedTransition(sceneRoot);
+
+                return true;
+            }
+        });
     }
 
     private void chkPermissions() {

@@ -1,11 +1,19 @@
 package com.asuscomm.yangyinetwork.wifibinding.ui.adapter;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.databinding.BindingAdapter;
+import android.databinding.OnRebindCallback;
+import android.databinding.ViewDataBinding;
+import android.databinding.adapters.TextViewBindingAdapter;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 
 import com.asuscomm.yangyinetwork.wifibinding.R;
 import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
@@ -36,10 +44,60 @@ public class WifiAdapter extends RecyclerView.Adapter<WifiViewHolder> {
         WifiItemViewModel viewModel = new WifiItemViewModel();
         WifiitemBinding binding = WifiitemBinding.bind(view);
 
+        binding.addOnRebindCallback(new OnRebindCallback() {
+            @Override
+            public boolean onPreBind(ViewDataBinding binding) {
+                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
+                TransitionManager.beginDelayedTransition(sceneRoot);
+                return true;
+            }
+        });
+
         final WifiViewHolder viewholder =
                 new WifiViewHolder(view, binding, viewModel);
 
         return viewholder;
+    }
+
+    @BindingAdapter("adText")
+    public static void adText(TextView view, String newText){
+        int DURATION_SHORT = 250;
+
+
+        String toText = newText;
+
+
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f);
+        final ObjectAnimator restore = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+        alpha.setDuration(DURATION_SHORT);
+        alpha.setInterpolator(new AccelerateDecelerateInterpolator());
+        restore.setDuration(DURATION_SHORT);
+        restore.setInterpolator(new AccelerateDecelerateInterpolator());
+        alpha.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // Do nothing.
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setText(toText);
+                restore.start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                view.setText(toText);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // Do nothing.
+            }
+        });
+        alpha.start();
+
+//        TextViewBindingAdapter.setText(tv, newText);
     }
 
     @BindingAdapter("items")

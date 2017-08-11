@@ -1,9 +1,12 @@
 package com.asuscomm.yangyinetwork.wifibinding.ui.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.asuscomm.yangyinetwork.wifibinding.data.models.WifiItem;
 import com.asuscomm.yangyinetwork.wifibinding.utils.receiver.WifiBroadcastReceiver;
